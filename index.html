@@ -1,5 +1,6 @@
 <html>
     <head>
+        <link rel="canonical" href="https://{guthub_username}.github.io/{repository}/" />
         <!-- The core Firebase JS SDK is always required and must be listed first -->
         <script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-app.js"></script>
         <script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-messaging.js"></script>
@@ -9,6 +10,13 @@
             https://firebase.google.com/docs/web/setup#available-libraries -->
 
         <script>
+            if (navigator.serviceWorker) {
+                navigator.serviceWorker.register('/{repository}/firebase-messaging-sw.js', {scope: '/{repository}/'})
+                .then(registration => {
+                    messaging.useServiceWorker(registration)
+                })
+            }
+
         // Your web app's Firebase configuration
     $(document).ready(function() {
         var firebaseConfig = {
@@ -23,23 +31,6 @@
         firebase.initializeApp(firebaseConfig);
 
         var messaging = firebase.messaging();
-
-        window.addEventListener('load', () => {
-            if ('serviceWorker' in navigator) {
-
-                navigator.serviceWorker.register('/fbtm/service-worker.js')
-                    .then(registration => {
-
-                        messaging.useServiceWorker(registration)
-
-                        initializePush()
-                    })
-                    .catch(err => console.log('Service Worker Error', err))
-
-            } else {
-                pushBtn.textContent = 'Push not supported.'
-            }
-        })
 
         messaging.onMessage(function(payload) {
                   console.log('Message received. ', payload);
