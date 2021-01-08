@@ -10,16 +10,6 @@
             https://firebase.google.com/docs/web/setup#available-libraries -->
 
         <script>
-            if (navigator.serviceWorker) {
-                navigator.serviceWorker.register('/fbtm/firebase-messaging-sw.js', {scope: '/fbtm/'})
-                .then(registration => {
-                    messaging.useServiceWorker(registration)
-                })
-                .catch(function(err) {
-                     console.log('Service worker registration failed, error:', err);
-                });
-            }
-
         // Your web app's Firebase configuration
     $(document).ready(function() {
         var firebaseConfig = {
@@ -34,6 +24,17 @@
         firebase.initializeApp(firebaseConfig);
 
         var messaging = firebase.messaging();
+
+
+        if (navigator.serviceWorker) {
+                navigator.serviceWorker.register('/fbtm/firebase-messaging-sw.js', {scope: '/fbtm/'})
+                .then(registration => {
+                    messaging.useServiceWorker(registration)
+                })
+                .catch(function(err) {
+                     console.log('Service worker registration failed, error:', err);
+                });
+            }
 
         messaging.onMessage(function(payload) {
                   console.log('Message received. ', payload);
