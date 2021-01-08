@@ -26,7 +26,7 @@
 
         if (navigator.serviceWorker) {
 //                navigator.serviceWorker.register('/fbtm/firebase-messaging-sw.js', {scope: '/fbtm/'})
-                navigator.serviceWorker.register('./fbtm/firebase-messaging-sw.js', {scope: '/'})
+                navigator.serviceWorker.register('./firebase-messaging-sw.js', {scope: '/fbtm/'})
                 .then(registration => {
                     messaging.useServiceWorker(registration)
                 })
