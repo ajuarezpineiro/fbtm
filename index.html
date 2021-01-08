@@ -26,19 +26,10 @@
 
         if (navigator.serviceWorker) {
 //                navigator.serviceWorker.register('/fbtm/firebase-messaging-sw.js', {scope: '/fbtm/'})
-                navigator.serviceWorker.register('./firebase-messaging-sw.js', {scope: '/fbtm/'})
+                navigator.serviceWorker.register('./firebase-messaging-sw.js', {scope: '/'})
                 .then(registration => {
                     messaging.useServiceWorker(registration)
-                    console.log('registered firebase messaging /fbtm')
-
-                    navigator.serviceWorker.register('./firebase-messaging-sw.js', {scope: '/'})
-                    .then(registration => {
-                        messaging.useServiceWorker(registration)
-                        console.log('registered firebase messaging /')
-                    })
-                    .catch(function(err) {
-                        console.log('Service worker registration failed, error:', err);
-                    });
+                    console.log('registered firebase messaging /')
                 })
                 .catch(function(err) {
                      console.log('Service worker registration failed, error:', err);
