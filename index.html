@@ -26,10 +26,12 @@
 
         if (navigator.serviceWorker) {
 //                navigator.serviceWorker.register('/fbtm/firebase-messaging-sw.js', {scope: '/fbtm/'})
-                navigator.serviceWorker.register('../firebase-messaging-sw.js', {scope: '/fbtm'})
+                navigator.serviceWorker.register('/fbtm/firebase-messaging-sw.js', {scope: '/fbtm'})
                 .then(registration => {
                     messaging.useServiceWorker(registration)
                     console.log('registered firebase messaging /')
+                    initializePush()
+                    console.log("Push initialized")
                 })
                 .catch(function(err) {
                      console.log('Service worker registration failed, error:', err);
@@ -47,26 +49,26 @@
                   // ...
                 });
 
-    messaging.requestPermission()
-        .then(function () {
-          console.log("Have permission");
-    });
+      messaging.requestPermission()
+          .then(function () {
+            console.log("Have permission");
 
-        messaging.getToken({vapidKey: 'BDMWOFIHZQ9aCgWSyTZC27NM4K--hJeiMLnTbom9FhBekfc_hwZjpOfI40yebolyMJfO-Ikv4P2F5Yg1GdlWU9c'}).then((currentToken) => {
-          if (currentToken) {
-            console.log(currentToken);
-          } else {
-            // Show permission request.
-            console.log('No registration token available. Request permission to generate one.');
-            // Show permission UI.
-            updateUIForPushPermissionRequired();
-            setTokenSentToServer(false);
-          }
-        }).catch((err) => {
-          console.log('An error occurred while retrieving token. ', err);
-//          showToken('Error retrieving registration token. ', err);
-//          setTokenSentToServer(false);
-        });
+            messaging.getToken({vapidKey: 'BDMWOFIHZQ9aCgWSyTZC27NM4K--hJeiMLnTbom9FhBekfc_hwZjpOfI40yebolyMJfO-Ikv4P2F5Yg1GdlWU9c'}).then((currentToken) => {
+                if (currentToken) {
+                  console.log(currentToken);
+                } else {
+                  // Show permission request.
+                  console.log('No registration token available. Request permission to generate one.');
+                  // Show permission UI.
+                  updateUIForPushPermissionRequired();
+                  setTokenSentToServer(false);
+                }
+              }).catch((err) => {
+                console.log('An error occurred while retrieving token. ', err);
+      //          showToken('Error retrieving registration token. ', err);
+      //          setTokenSentToServer(false);
+              });
+      });
     });
         </script>
     </head>
