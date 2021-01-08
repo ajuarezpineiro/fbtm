@@ -1,6 +1,6 @@
 <html>
     <head>
-        <link rel="canonical" href="https://{github_username}.github.io/{repository}/" />
+        <link rel="canonical" href="https://{github_username}.github.io/fbtm/" />
         <!-- The core Firebase JS SDK is always required and must be listed first -->
         <script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-app.js"></script>
         <script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-messaging.js"></script>
@@ -11,10 +11,13 @@
 
         <script>
             if (navigator.serviceWorker) {
-                navigator.serviceWorker.register('/{repository}/firebase-messaging-sw.js', {scope: '/{repository}/'})
+                navigator.serviceWorker.register('/fbtm/firebase-messaging-sw.js', {scope: '/fbtm/'})
                 .then(registration => {
                     messaging.useServiceWorker(registration)
                 })
+                .catch(function(err) {
+                     console.log('Service worker registration failed, error:', err);
+                });
             }
 
         // Your web app's Firebase configuration
@@ -40,15 +43,6 @@
     messaging.requestPermission()
         .then(function () {
           console.log("Have permission");
-          if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('/firebase-messaging-sw.js')
-            .then(function(registration) {
-                console.log('Registration successful, scope is:', registration.scope);
-
-            }).catch(function(err) {
-                console.log('Service worker registration failed, error:', err);
-            });
-        }
     });
 
         messaging.getToken({vapidKey: 'BDMWOFIHZQ9aCgWSyTZC27NM4K--hJeiMLnTbom9FhBekfc_hwZjpOfI40yebolyMJfO-Ikv4P2F5Yg1GdlWU9c'}).then((currentToken) => {
