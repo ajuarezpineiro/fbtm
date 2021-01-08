@@ -20,9 +20,31 @@
             appId: "1:558647687831:web:d9c4ce2637ef61838b07d2"
           };
         // Initialize Firebase
-        var fire = firebase.initializeApp(firebaseConfig);
+        firebase.initializeApp(firebaseConfig);
 
-        var messaging = fire.messaging();
+        var messaging = firebase.messaging();
+
+        window.addEventListener('load', () => {
+            if ('serviceWorker' in navigator) {
+
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then(registration => {
+
+                        messaging.useServiceWorker(registration)
+
+                        initializePush()
+                    })
+                    .catch(err => console.log('Service Worker Error', err))
+
+            } else {
+                pushBtn.textContent = 'Push not supported.'
+            }
+        })
+
+        messaging.onMessage(function(payload) {
+                  console.log('Message received. ', payload);
+                  // ...
+                });
 
     messaging.requestPermission()
         .then(function () {
@@ -41,10 +63,6 @@
         messaging.getToken({vapidKey: 'BDMWOFIHZQ9aCgWSyTZC27NM4K--hJeiMLnTbom9FhBekfc_hwZjpOfI40yebolyMJfO-Ikv4P2F5Yg1GdlWU9c'}).then((currentToken) => {
           if (currentToken) {
             console.log(currentToken);
-              messaging.onMessage(function(payload) {
-                  console.log('Message received. ', payload);
-                  // ...
-                });
           } else {
             // Show permission request.
             console.log('No registration token available. Request permission to generate one.');
