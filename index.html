@@ -11,7 +11,6 @@
 
         <script>
         // Your web app's Firebase configuration
-    $(document).ready(function() {
         var firebaseConfig = {
             apiKey: "AIzaSyCJVWI0GT82uddWNNpD1DzmW6MR5x_qxNY",
             authDomain: "ola-messages-int.firebaseapp.com",
@@ -25,9 +24,9 @@
 
         var messaging = firebase.messaging();
 
-
         if (navigator.serviceWorker) {
-                navigator.serviceWorker.register('/fbtm/firebase-messaging-sw.js', {scope: '/fbtm/'})
+//                navigator.serviceWorker.register('/fbtm/firebase-messaging-sw.js', {scope: '/fbtm/'})
+                navigator.serviceWorker.register('./fbtm/firebase-messaging-sw.js', {scope: '/fbtm/'})
                 .then(registration => {
                     messaging.useServiceWorker(registration)
                 })
@@ -35,6 +34,12 @@
                      console.log('Service worker registration failed, error:', err);
                 });
             }
+
+    $(document).ready(function() {
+        
+
+
+        
 
         messaging.onMessage(function(payload) {
                   console.log('Message received. ', payload);
