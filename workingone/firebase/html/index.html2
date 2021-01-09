@@ -1,0 +1,76 @@
+<html>
+<head>
+    <link rel="canonical" href="https://{github_username}.github.io/fbtm/" />
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-messaging.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+        https://firebase.google.com/docs/web/setup#available-libraries -->
+
+    <script>
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+            apiKey: "AIzaSyCJVWI0GT82uddWNNpD1DzmW6MR5x_qxNY",
+            authDomain: "ola-messages-int.firebaseapp.com",
+            projectId: "ola-messages-int",
+            storageBucket: "ola-messages-int.appspot.com",
+            messagingSenderId: "558647687831",
+            appId: "1:558647687831:web:d9c4ce2637ef61838b07d2"
+          };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+
+        var messaging = firebase.messaging();
+
+        if (navigator.serviceWorker) {
+//                navigator.serviceWorker.register('/fbtm/firebase-messaging-sw.js', {scope: '/fbtm/'})
+                navigator.serviceWorker.register('/firebase-messaging-sw.js')
+                .then(registration => {
+                    messaging.useServiceWorker(registration)
+                    console.log('registered firebase messaging /')
+                    //initializePush()
+
+                    messaging.requestPermission()
+                      .then(function () {
+                        console.log("Have permission");
+
+                        messaging.getToken({vapidKey: 'BDMWOFIHZQ9aCgWSyTZC27NM4K--hJeiMLnTbom9FhBekfc_hwZjpOfI40yebolyMJfO-Ikv4P2F5Yg1GdlWU9c'}).then((currentToken) => {
+                            if (currentToken) {
+                              console.log(currentToken);
+
+                              messaging.onMessage(function(payload) {
+                                  console.log('Message received. ', payload);
+                                  // ...
+                                });
+
+                            } else {
+                              // Show permission request.
+                              console.log('No registration token available. Request permission to generate one.');
+                              // Show permission UI.
+                              updateUIForPushPermissionRequired();
+                              setTokenSentToServer(false);
+                            }
+                          }).catch((err) => {
+                            console.log('An error occurred while retrieving token. ', err);
+                          });
+      });
+
+                    console.log("Push initialized")
+                })
+                .catch(function(err) {
+                     console.log('Service worker registration failed, error:', err);
+                });
+            }
+
+    $(document).ready(function() {
+
+
+    });
+        </script>
+</head>
+<body>
+<h1>Hi from index</h1>
+</body>
+</html>
